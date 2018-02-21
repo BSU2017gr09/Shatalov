@@ -58,5 +58,6 @@ int main()
 	initarray(array, N);
 	printarray(array, N);
 	numinsequence(array, N);
+	delete []array;
 	system("pause");
 }

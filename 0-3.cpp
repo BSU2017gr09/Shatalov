@@ -73,5 +73,6 @@ int main()
 	cin >> k;
 	elemmove(array, N, k);
 	printarray(array, N);
+	delete []array;
 	system("pause");
 }

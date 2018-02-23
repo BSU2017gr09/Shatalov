@@ -22,7 +22,7 @@ void elemmove(int *array, int N, int k)
 	int *a = array;
 	int n = 0;
 	int *b = array + N - 1;
-	while (n < N / 2)
+	while (n < N / 2)//вот тут  не понял!!! Почему до N/2 делаем реверс?????
 	{
 		swap(*b, *a);
 		n++;

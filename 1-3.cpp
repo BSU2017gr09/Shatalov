@@ -3,16 +3,6 @@
 #include <iostream>
 using namespace std;
 
-bool isPrime(int num)
-{
-	for (int i = 2; i <= (sqrt(num)); ++i)
-	{
-		if (num % i == 0)
-			return false;
-	}
-	return true;
-}
-
 int* arrMem(int N)
 {
 	int* array;
@@ -31,7 +21,7 @@ void initarray(int *array, int N)
 {
 	for (int i = 0; i < N; i++)
 	{
-		*(i + array) = 9 - i;
+		*(i + array) = rand() % 200 - 100;
 	}
 }
 
@@ -41,44 +31,40 @@ void printarray(int *array, int N)
 		cout << *(i + array) << " ";
 }
 
-void sortArray(int *array, int N)
+void sortArray(int* array, int N)
 {
+	int i = N - 1;
+	int n = 0;
 	int t = 1;
 	while (t)
 	{
 		t = 0;
-		for (int *i = array; i < array + N; i++)
+		for (i = N - 1; i > 0; i--)
 		{
-			if (isPrime(*i))
+			if (*(array + i - 1) >= 0 && *(array + i) <= 0)
 			{
-				for (int *j = i; j < array + N - 1; j++)
-				{
-					if (isPrime(*(j + 1)))
-					{
-						if (*i > *(j + 1))
-							swap(*i, *(j + 1));
-					}
-				}
+				swap(*(array + i - 1), *(array + i));
+				t++;
 			}
 		}
+	}
+	for (int m = 0; m < N - 1; m++)
+	{
+		if (*(array + m) < 0)
+			n++;
 	}
 	t = 1;
 	while (t)
 	{
 		t = 0;
-		for (int n = 0; n < N; n++)
+		for (int k = 0; k < n - 1; k++)
 		{
-			if (*(array + n) < *(array + n + 1) && (isPrime(*(array + n) != 1) && (isPrime(*(array + n + 1)) != 1)))
+			if (*(array + k) < *(array + k + 1))
 			{
-				swap(*(array + n), *(array + n + 1));
+				swap(*(array + k), *(array + k + 1));
 				t++;
 			}
 		}
-	}
-	for (int n = 0; n < N; n++)
-	{
-		if ((*(array + n) == 0) && (*(array + n + 1) == 1))
-			swap(*(array + n), *(array + n + 1));
 	}
 }
 
@@ -96,49 +82,7 @@ int main()
 	initarray(array, N);
 	printarray(array, N);
 	cout << endl;
-	//sortArray(array, N);
-	int t = 1;
-	while (t)
-	{
-		t = 0;
-		for (int *i = array; i < array + N; i++)
-		{
-			if (isPrime(*i))
-			{
-				for (int *j = i; j < array + N - 1; j++)
-				{
-					if (isPrime(*(j + 1)))
-					{
-						if (*i > *(j + 1))
-							swap(*i, *(j + 1));
-						printarray(array, N);
-						cout << endl;
-					}
-				}
-			}
-		}
-	}
-	t = 1;
-	while (t)
-	{
-		t = 0;
-		for (int n = 0; n < N; n++)
-		{
-			if (*(array + n) < *(array + n + 1) && (isPrime(*(array + n) != 1) && (isPrime(*(array + n + 1)) != 1)))
-			{
-				swap(*(array + n), *(array + n + 1));
-				printarray(array, N);
-				cout << endl;
-				t++;
-			}
-		}
-	}
-	for (int n = 0; n < N; n++)
-	{
-		if ((*(array + n) == 0) && (*(array + n + 1) == 1))
-			swap(*(array + n), *(array + n + 1));
-	}
-	cout << endl;
+	sortArray(array, N);
 	printarray(array, N);
 	arrDel(array, N);
 	system("pause");

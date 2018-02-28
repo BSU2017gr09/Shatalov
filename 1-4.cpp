@@ -1,4 +1,4 @@
-//Элементы целочисленного массива А(N), значения которых оказались простыми числами, расположить в порядке возрастания, не нарушая порядка следования других элементов.
+//Элементы целочисленного массива А(N), значения которых оказались простыми числами, расположить в порядке возрастания, не нарушая порядка следования других элементов.ния. Отрицательные элементы расположить в порядке убывания. Дополнительный массив не использовать.
 
 #include <iostream>
 using namespace std;
@@ -27,11 +27,6 @@ int* arrMem(int N)
 	}
 }
 
-void arrDel(int *a, int N)
-{
-	delete[N] a;
-}
-
 void initarray(int *array, int N)
 {
 	for (int i = 0; i < N; i++)
@@ -46,26 +41,50 @@ void printarray(int *array, int N)
 		cout << *(i + array) << " ";
 }
 
-int distCount(int x, int y, int a, int b, int c)
+void sortArray(int *array, int N)
 {
-	int dist;
-	dist = abs(a*x + b * y + c) / sqrt(a*a + b * b);
-	return dist;
-}
-
-void sortDist(int *array, int *arr, int N, int a, int b, int c)
-{
-	for (int *w = array, *v = arr; w < array + N; w++, v++)
+	int t = 1;
+	while (t)
 	{
-		for (int *p = w, *q = v; p < array + N; p++, q++)
+		t = 0;
+		for (int *i = array; i < array + N; i++)
 		{
-			if (distCount(*w, *v, a, b, c) > distCount(*p, *q, a, b, c))
+			if (isPrime(*i))
 			{
-				swap(*p, *w);
-				swap(*q, *v);
+				for (int *j = i; j < array + N - 1; j++)
+				{
+					if (isPrime(*(j + 1)))
+					{
+						if (*i > *(j + 1))
+							swap(*i, *(j + 1));
+					}
+				}
 			}
 		}
 	}
+	t = 1;
+	while (t)
+	{
+		t = 0;
+		for (int n = 0; n < N; n++)
+		{
+			if (*(array + n) < *(array + n + 1) && (isPrime(*(array + n) != 1) && (isPrime(*(array + n + 1)) != 1)))
+			{
+				swap(*(array + n), *(array + n + 1));
+				t++;
+			}
+		}
+	}
+	for (int n = 0; n < N; n++)
+	{
+		if ((*(array + n) == 0) && (*(array + n + 1) == 1))
+			swap(*(array + n), *(array + n + 1));
+	}
+}
+
+void arrDel(int *a, int N)
+{
+	delete[N] a;
 }
 
 int main()
@@ -73,16 +92,54 @@ int main()
 	int N;
 	cout << "Enter the number of elements in array:" << endl;
 	cin >> N;
-	int a, b, c;
-	cin >> a;
-	cin >> b;
-	cin >> c;
 	int* array = arrMem(N);
-	int* arr = arrMem(N);
 	initarray(array, N);
-	initarray(arr, N);
-	sortDist(array, arr, N, a, b, c);
+	printarray(array, N);
+	cout << endl;
+	//sortArray(array, N);
+	int t = 1;
+	while (t)
+	{
+		t = 0;
+		for (int *i = array; i < array + N; i++)
+		{
+			if (isPrime(*i))
+			{
+				for (int *j = i; j < array + N - 1; j++)
+				{
+					if (isPrime(*(j + 1)))
+					{
+						if (*i > *(j + 1))
+							swap(*i, *(j + 1));
+						printarray(array, N);
+						cout << endl;
+					}
+				}
+			}
+		}
+	}
+	t = 1;
+	while (t)
+	{
+		t = 0;
+		for (int n = 0; n < N; n++)
+		{
+			if (*(array + n) < *(array + n + 1) && (isPrime(*(array + n) != 1) && (isPrime(*(array + n + 1)) != 1)))
+			{
+				swap(*(array + n), *(array + n + 1));
+				printarray(array, N);
+				cout << endl;
+				t++;
+			}
+		}
+	}
+	for (int n = 0; n < N; n++)
+	{
+		if ((*(array + n) == 0) && (*(array + n + 1) == 1))
+			swap(*(array + n), *(array + n + 1));
+	}
+	cout << endl;
+	printarray(array, N);
 	arrDel(array, N);
-	arrDel(arr, N);
 	system("pause");
 }

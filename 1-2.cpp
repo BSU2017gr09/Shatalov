@@ -3,6 +3,16 @@
 #include <iostream>
 using namespace std;
 
+bool isPrime(int num)
+{
+	for (int i = 2; i <= (sqrt(num)); ++i)
+	{
+		if (num % i == 0)
+			return false;
+	}
+	return true;
+}
+
 int* arrMem(int N)
 {
 	int* array;
@@ -17,11 +27,16 @@ int* arrMem(int N)
 	}
 }
 
+void arrDel(int *a, int N)
+{
+	delete[N] a;
+}
+
 void initarray(int *array, int N)
 {
 	for (int i = 0; i < N; i++)
 	{
-		*(i + array) = rand() % 200 - 100;
+		*(i + array) = 9 - i;
 	}
 }
 
@@ -31,46 +46,26 @@ void printarray(int *array, int N)
 		cout << *(i + array) << " ";
 }
 
-void sortArray(int* array, int N)
+int distCount(int x, int y, int a, int b, int c)
 {
-	int i = N - 1;
-	int n = 0;
-	int t = 1;
-	while (t)
-	{
-		t = 0;
-		for (i = N - 1; i > 0; i--)
-		{
-			if (*(array + i - 1) >= 0 && *(array + i) <= 0)
-			{
-				swap(*(array + i - 1), *(array + i));
-				t++;
-			}
-		}
-	}
-	for (int m = 0; m < N - 1; m++)
-	{
-		if (*(array + m) < 0)
-			n++;
-	}
-	t = 1;
-	while (t)
-	{
-		t = 0;
-		for (int k = 0; k < n - 1; k++)
-		{
-			if (*(array + k) < *(array + k + 1))
-			{
-				swap(*(array + k), *(array + k + 1));
-				t++;
-			}
-		}
-	}
+	int dist;
+	dist = abs(a*x + b * y + c) / sqrt(a*a + b * b);
+	return dist;
 }
 
-void arrDel(int *a, int N)
+void sortDist(int *array, int *arr, int N, int a, int b, int c)
 {
-	delete[N] a;
+	for (int *w = array, *v = arr; w < array + N; w++, v++)
+	{
+		for (int *p = w, *q = v; p < array + N; p++, q++)
+		{
+			if (distCount(*w, *v, a, b, c) > distCount(*p, *q, a, b, c))
+			{
+				swap(*p, *w);
+				swap(*q, *v);
+			}
+		}
+	}
 }
 
 int main()
@@ -78,12 +73,16 @@ int main()
 	int N;
 	cout << "Enter the number of elements in array:" << endl;
 	cin >> N;
+	int a, b, c;
+	cin >> a;
+	cin >> b;
+	cin >> c;
 	int* array = arrMem(N);
+	int* arr = arrMem(N);
 	initarray(array, N);
-	printarray(array, N);
-	cout << endl;
-	sortArray(array, N);
-	printarray(array, N);
+	initarray(arr, N);
+	sortDist(array, arr, N, a, b, c);
 	arrDel(array, N);
+	arrDel(arr, N);
 	system("pause");
 }

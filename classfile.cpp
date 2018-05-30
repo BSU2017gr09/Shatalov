@@ -181,12 +181,12 @@ void printBusNumbers(Bus *arr[], int n)
     cout << endl;
 }
 
-void sortByRouteNumber(Bus *arr[], int n)
+void sortByRouteNumber(Bus *arr[], const int n)
 {
-    int a[n];
-    for (int t = 0; t < n; t++)
-        a[t] = (*arr[t]).getRouteNumbers();
-    for (int i = n-1; i>=0; i--)
+    //int a[n];
+    //for (int t = 0; t < n; t++)
+        //a[t] = (*arr[t]).getRouteNumbers();
+    /*for (int i = n-1; i>=0; i--)
     {
         for (int j = 0; j < i; j++)
         {
@@ -195,35 +195,49 @@ void sortByRouteNumber(Bus *arr[], int n)
                 swap(a[j], a[j+1]);
             }
         }
+    }*/
+    for (int i = n-1; i>=0; i--)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            if (arr[j] > arr[j+1])
+            {
+                swap(arr[j], arr[j+1]);
+            }
+        }
     }
-    cout << "Bus routes(sorted): ";
+    cout << "Bus routes(sorted): " << endl;
     for (int k = 0; k < n; k++)
     {
-        cout << a[k] << " ";
+        cout << *arr[k] << endl;
     }
     cout << endl;
 }
 
-void avgAge(Bus *arr[], int n)
+void avgAge(Bus *arr[], const int n)
 {
-    int a[n];
+    //int a[n];
     int s = 0;
-    for (int t = 0; t < n; t++)
-        a[t] = (*arr[t]).getAge();
-    for (int k = 0; k < n; k++)
+    //for (int t = 0; t < n; t++)
+        //a[t] = (*arr[t]).getAge();
+    /*for (int k = 0; k < n; k++)
     {
         s = s + a[k];
+    }*/
+    for (int k = 0; k < n; k++)
+    {
+        s = s + (*arr[k]).getAge();
     }
     s = s / n;
     cout << "Average Age: " << s << endl;
 }
 
-void oldAndYoung(Bus *arr[], int n)
+void oldAndYoung(Bus *arr[], const int n)
 {
-    int a[n];
-    for (int t = 0; t < n; t++)
-        a[t] = (*arr[t]).getAge();
-    for (int i = n-1; i>=0; i--)
+    //int a[n];
+    //for (int t = 0; t < n; t++)
+        //a[t] = (*arr[t]).getAge();
+    /*for (int i = n-1; i>=0; i--)
     {
         for (int j = 0; j < i; j++)
         {
@@ -232,9 +246,19 @@ void oldAndYoung(Bus *arr[], int n)
                 swap(a[j], a[j+1]);
             }
         }
+    }*/
+    for (int i = n-1; i>=0; i--)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            if (arr[j] > arr[j+1])
+            {
+                swap(arr[j], arr[j+1]);
+            }
+        }
     }
-    cout << "Age of youngest: " << a[0] << endl;
-    cout << "Age of oldest: " << a[n-1] << endl;
+    cout << "Age of youngest: " << *arr[n-1] << endl;
+    cout << "Age of oldest: " << *arr[0] << endl;
 }
 
 /*void getObject(Bus o)

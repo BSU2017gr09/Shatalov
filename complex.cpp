@@ -8,7 +8,7 @@ public:
     double im;
     Complex():re(0),im(0) {};
     ~Complex() {};
-    void operator = (const Complex &other) {};
+    void operator = (const Complex &other) {}; // что это????
     Complex(const Complex &other) {this->re = other.re; this->im = other.im;};
     Complex(double a, double b):re(a), im(b) {};
     friend istream& operator >> (istream &anstream, Complex &num) {cin >> num.re >> num.im; return anstream;};

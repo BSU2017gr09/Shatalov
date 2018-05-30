@@ -3,6 +3,8 @@
 #include <fstream>
 using namespace std;
 
+char path[] = "//Users//vsevolodshatalov//documents//texts//file.txt";
+char path0[] = "//Users//vsevolodshatalov//documents//texts//file0.txt";
 class Bus
 {
 private:
@@ -12,7 +14,7 @@ private:
     int RouteNumber;
 public:
     //Bus():BusNumber(0), Age(0), RouteNumber(0), Surname(nullptr) {};
-    Bus(int a = 0, int b = 0, int c = 0, char* d = nullptr):BusNumber(a), Age(b), RouteNumber(c), Surname(nullptr) {
+    Bus(int a = 0, int b = 0, int c = 0, char* d = nullptr):BusNumber(a), Age(b), RouteNumber(c), Surname(d) {
         if (d == nullptr)
             d = "\0";
         try {
@@ -99,7 +101,7 @@ public:
     void save(ofstream& fout)
     {
         int a = getBusNumbers();
-        int b = getRouteNumbers();
+        int b = getBusNumbers();
         int c = getAge();
         char* d = getSurname();
         fout.write((char*)&a, sizeof(a));
@@ -107,24 +109,36 @@ public:
         fout.write((char*)&c, sizeof(c));
         fout.write(d, strlen(d) + 1);
     };
-    void load(ifstream& fin)//это не сработатет!!!! Потому, что не соответсвует  void save(ofstream& fout)
+    void load(ifstream& fin)
     {
-        char tmp[50]; 
-        char temp = 0;
-        fin.get(temp);
-        setBusNumbers(temp);
-        fin.get(temp);
-        setRouteNumbers(temp);
-        fin.get(temp);
-        setAge(temp);
-        fin.getline(tmp, 50, '\0');
-        setSurname(tmp);
+        int a = getBusNumbers();
+        int b = getRouteNumbers();
+        int c = getAge();
+        char* d = getSurname();
+        fin.read((char*)&a, 4);
+        fin.read((char*)&b, 4);
+        fin.read((char*)&c, 4);
+        fin.read(d, strlen(d) + 1);
+    }
+    /*void save(ofstream& fout)
+    {
+        fout.write((char*)&BusNumber, sizeof(BusNumber));
+        fout.write((char*)&RouteNumber, sizeof(RouteNumber));
+        fout.write((char*)&Age, sizeof(Age));
+        fout.write(Surname, strlen(Surname) + 1);
     };
+    void load(ifstream& fin)
+    {
+        fin.read((char*)&BusNumber, 100);
+        fin.read((char*)&RouteNumber, 100);
+        fin.read((char*)&Age, 10);
+        fin.read(Surname, strlen(Surname) + 1);
+    }*/
 };
 
 unsigned int writetofile(Bus *bus[])
 {
-    ofstream fout("//Users//vsevolodshatalov//documents//texts//file.txt", ios::out | ios::binary); //зачем ПОЛНЫЙ путь????? Это неудобно
+    ofstream fout(path, ios::out | ios::binary);
     for (unsigned int i = 0; i < 3; i++)
     {
         (*bus[i]).save(fout);
@@ -133,13 +147,26 @@ unsigned int writetofile(Bus *bus[])
     return 0;
 }
 
+unsigned int writetootherfile(Bus *bus[])
+{
+    ofstream fout(path0, ios::out | ios::binary);
+    for (unsigned int i = 0; i < 3; i++)
+    {
+        (*bus[i]).save(fout);
+    }
+    fout.close();
+    return 0;
+}
 unsigned int readfromfile(Bus *bus[])
 {
-    ifstream fin("//Users//vsevolodshatalov//documents//texts//file.txt", ios::in | ios::binary); //зачем ПОЛНЫЙ путь????? Это неудобно
+    ifstream fin(path, ios::in | ios::binary);
+    //ofstream fout("//Users//vsevolodshatalov//documents//texts//file0.txt", ios::out | ios::binary);
     for (unsigned int i = 0; i < 3; i++)
     {
         (*bus[i]).load(fin);
+        //(*bus[i]).save(fout);
     }
+    //fout.close();
     fin.close();
     return 0;
 }
@@ -210,7 +237,7 @@ void oldAndYoung(Bus *arr[], int n)
     cout << "Age of oldest: " << a[n-1] << endl;
 }
 
-void getObject(Bus o)
+/*void getObject(Bus o)
 {
     fstream f;
     f.open("//Users//vsevolodshatalov//documents//texts//file.txt", ios::out | ios::app | ios::trunc);
@@ -244,7 +271,7 @@ void putObject(Bus buf)
     //cout << "File is not open" << endl;
     f.close();
     ff.close();
-}
+}*/
 
 int main(int argc, const char * argv[]) {
     const int N = 3;
@@ -270,7 +297,15 @@ int main(int argc, const char * argv[]) {
     const int M = 30;
     char* buffer = new char[M];
     writetofile(arr);
+    cout << *arr[0] << endl;
+    cout << *arr[1] << endl;
+    cout << *arr[2] << endl;
+    cout << "-----------------------------------------" << endl;
     readfromfile(arr);
+    cout << *arr[0] << endl;
+    cout << *arr[1] << endl;
+    cout << *arr[2] << endl;
+    writetootherfile(arr);
     //of.open("//Users//vsevolodshatalov//documents//texts//file.txt", ios::binary);
     //a.load(of);
     //of.write((char*)&a, sizeof(a));

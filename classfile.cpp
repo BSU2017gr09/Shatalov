@@ -76,15 +76,15 @@ public:
     };
     void setBusNumbers(int num)
     {
-        BusNumber = char(num);
+        BusNumber = num;
     };
     void setRouteNumbers(int num)
     {
-        RouteNumber = char(num);
+        RouteNumber = num;
     };
     void setAge(int num)
     {
-        Age = char(num);
+        Age = num;
     };
     void setSurname(char* str)
     {
@@ -115,9 +115,9 @@ public:
         int b = getRouteNumbers();
         int c = getAge();
         char* d = getSurname();
-        fin.read((char*)&a, 4);
-        fin.read((char*)&b, 4);
-        fin.read((char*)&c, 4);
+        fin.read((char*)&a, sizeof(a));
+        fin.read((char*)&b, sizeof(b));
+        fin.read((char*)&c, sizeof(c));
         fin.read(d, strlen(d) + 1);
     }
     /*void save(ofstream& fout)

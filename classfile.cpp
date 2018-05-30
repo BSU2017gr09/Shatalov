@@ -107,9 +107,9 @@ public:
         fout.write((char*)&c, sizeof(c));
         fout.write(d, strlen(d) + 1);
     };
-    void load(ifstream& fin)
+    void load(ifstream& fin)//это не сработатет!!!! Потому, что не соответсвует  void save(ofstream& fout)
     {
-        char tmp[50];
+        char tmp[50]; 
         char temp = 0;
         fin.get(temp);
         setBusNumbers(temp);
@@ -124,7 +124,7 @@ public:
 
 unsigned int writetofile(Bus *bus[])
 {
-    ofstream fout("//Users//vsevolodshatalov//documents//texts//file.txt", ios::out | ios::binary);
+    ofstream fout("//Users//vsevolodshatalov//documents//texts//file.txt", ios::out | ios::binary); //зачем ПОЛНЫЙ путь????? Это неудобно
     for (unsigned int i = 0; i < 3; i++)
     {
         (*bus[i]).save(fout);
@@ -135,7 +135,7 @@ unsigned int writetofile(Bus *bus[])
 
 unsigned int readfromfile(Bus *bus[])
 {
-    ifstream fin("//Users//vsevolodshatalov//documents//texts//file.txt", ios::in | ios::binary);
+    ifstream fin("//Users//vsevolodshatalov//documents//texts//file.txt", ios::in | ios::binary); //зачем ПОЛНЫЙ путь????? Это неудобно
     for (unsigned int i = 0; i < 3; i++)
     {
         (*bus[i]).load(fin);

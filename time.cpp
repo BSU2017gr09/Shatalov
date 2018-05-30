@@ -10,13 +10,13 @@ private:
     int Minutes;
     int Hours;
 public:
-    Time(int a = 0, int b = 0, int c = 0):Hours(a), Minutes(b), Seconds(c) {};
+    Time(int a = 0, int b = 0, int c = 0):Hours(a), Minutes(b), Seconds(c) {};//неверный список инициализации. Не в том порядке!!!
     Time(const Time &other) {
         this->Seconds = other.Seconds;
         this->Minutes = other.Minutes;
         this->Hours = other.Hours;
     };
-    Time(const Time &&other) {
+    Time(const Time &&other) {//бессмысленный move он совпадает с copy
         this->Seconds = other.Seconds;
         this->Minutes = other.Minutes;
         this->Hours = other.Hours;
@@ -30,7 +30,7 @@ public:
         }
         return in;
     };
-    void operator = (const Time &other) {
+    void operator = (const Time &other) {// почему void???
         this->Seconds = other.Seconds;
         this->Minutes = other.Minutes;
         this->Hours = other.Hours;
@@ -89,13 +89,13 @@ public:
         }
         return res;
     };
-    bool operator < (const Time &num) {
-        if (Hours < num.Hours)
+    bool operator < (const Time &num) { //что за странное имя num ???
+        if (Hours < num.Hours) 
         {
             return true;
         }
         else if (Hours > num.Hours)
-            return false;
+            return false; //этот кусок кода (6 строк) можно сократить до return(Hours < num.Hours)
         else
         {
             if (Minutes < num.Minutes)
@@ -104,7 +104,7 @@ public:
             }
             else if (Minutes > num.Minutes)
                 return false;
-            else
+            else //этот кусок кода (6 строк) можно сократить до return(Minutes < num.Minutes)
             {
                 if (Seconds < num.Seconds)
                 {
@@ -116,7 +116,7 @@ public:
             }
         }
     };
-    bool operator <= (const Time &num) {
+    bool operator <= (const Time &num) {  //плохо. Надо использовать уже сделанные operator < и >
         if (Hours <= num.Hours)
         {
             return true;
@@ -143,7 +143,7 @@ public:
             }
         }
     };
-    bool operator > (const Time &num) {
+    bool operator > (const Time &num) { //плохо. Надо использовать уже сделанный operator <
         if (Hours < num.Hours)
         {
             return false;
@@ -170,7 +170,7 @@ public:
             }
         }
     };
-    bool operator >= (const Time &num) {
+    bool operator >= (const Time &num) { //плохо. Надо использовать уже сделанные operator < и >
         if (Hours < num.Hours)
         {
             return false;

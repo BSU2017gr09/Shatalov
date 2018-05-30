@@ -13,7 +13,7 @@ public:
     Bus():BusNumber(0), Age(0), RouteNumber(0), Surname(nullptr) {};
     Bus(int a = 0, int b = 0, int c = 0, char* d = nullptr):BusNumber(a), Age(b), RouteNumber(c), Surname(nullptr) {
         if (d == nullptr)
-            d = "\0";
+            d = "\0"; //ОЙ  и куда именно оно попытается записать этот ноль????
         Surname = new (nothrow) char[strlen(d)+1];
         strcpy(Surname, d);
     };
